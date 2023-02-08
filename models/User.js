@@ -12,7 +12,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            //figure out validation for email
+            match:  [/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/],
         },
         thoughts: [{
             type: Schema.Types.ObjectId,
@@ -22,7 +22,18 @@ const userSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         }]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+        },
+        id: false,
     }
 )
+
+//add logic for friend counter virtual 
+
+const User = model('User', userSchema);
 
 module.exports = User;
