@@ -17,7 +17,7 @@ module.exports = {
     },
     createThought(req, res) {
         Thought.create(req.body)
-        .then((thought) => {
+        .then(({ _id }) => {
             return User.findOneAndUpdate(
                 { _id: req.body.userId },
                 { $push: { thoughts: _id }},
@@ -30,6 +30,28 @@ module.exports = {
         : res.json(thought)
         )
         .catch((err) => res.status(500).json(err));
-        //add update later
+    },
+    updateThought(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $set: req.body },
+            { runValidators: true, new: true }
+        )
+        .then((thought) =>
+        !thought
+        ? res.status(404).json({ message: 'No thought found' })
+        : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
+    },
+    deleteThought(req, res) {
+        Thought.findOneAndDelete({ _id: req.params.thoughtId })
+        .then((thought) =>
+        !thought
+        ? res.status(404).json({ message: 'No thought found' })
+        : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
     }
+    //finish w/ reactions
 };
