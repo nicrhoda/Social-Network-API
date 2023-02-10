@@ -1,22 +1,22 @@
-const express = require('express');
-const db = require('./config/connection');
-const routes = require('./routes');
+const express = require("express");
+const db = require("./config/connection");
+const routes = require("./routes");
 
 const cwd = process.cwd();
 
 const PORT = process.env.port || 3001;
 const app = express();
 
-const activity = cwd.includes('Social-Network-API')
-? cwd.split('/Social-Network-API')[1]
-: cwd;
+const activity = cwd.includes("Social-Network-API")
+  ? cwd.split("/Social-Network-API")[1]
+  : cwd;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
-db.once('open', () => {
-    app.listen(PORT, () => {
-        console.log(`server for ${activity} on port ${PORT}`)
-    });
+db.once("open", () => {
+  app.listen(PORT, () => {
+    console.log(`server for ${activity} on port ${PORT}`);
+  });
 });

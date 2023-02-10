@@ -10,18 +10,20 @@ const {
   deleteReaction,
 } = require("../../controllers/thoughtsController.js");
 
+// basic get and post routes
 router.route("/").get(getThoughts).post(createThought);
 
+// get put and delete routes by id
 router
   .route("/:thoughtId")
   .get(getSingleThought)
   .put(updateThought)
   .delete(deleteThought);
 
-router.route('/:thoughtId/reaction')
-.post(createReaction);
+  // post route for reaction by id
+router.route("/:thoughtId/reaction").post(createReaction);
 
-router.route('/:thoughtId/reaction/:reactionId')
-.delete(deleteReaction);
+// delete route for reaction by id
+router.route("/:thoughtId/reaction/:reactionId").delete(deleteReaction);
 
 module.exports = router;
